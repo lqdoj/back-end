@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -47,9 +48,15 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'lqdoj_backend.urls'
 
