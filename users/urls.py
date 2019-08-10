@@ -20,5 +20,7 @@ from . import views
 urlpatterns = [
     path('user_register/', views.register_handle),
     path('user_login/', views.login_handle),
-    path('user_logout/', views.logout_handle)
+    path('user_logout/', views.logout_handle),
+    path('check_token/', views.check_token_handle),
+
 ]
