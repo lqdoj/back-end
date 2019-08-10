@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
+    'announcements.apps.AnnouncementsConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders'
@@ -135,11 +136,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
 
 # String constants
 MSG_USER_CREATED = "User created successfully"
+MSG_INVALID_TOKEN = "Invalid token"
 HEADER_TOKEN = "LQDOJ-TOKEN"
