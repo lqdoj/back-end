@@ -1,14 +1,13 @@
 from django.contrib.auth.forms import AuthenticationForm
-from rest_framework.status import *
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.status import (HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST)
 
 from lqdoj_backend.json_response import *
+from lqdoj_backend.serializers import UserSerializer
 from lqdoj_backend.settings import *
 from .forms import UserRegistrationForm
-
-from .serializers import UserSerializer
 
 
 @api_view(["POST"])
