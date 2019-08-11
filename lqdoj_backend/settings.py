@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'announcements.apps.AnnouncementsConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders'
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
