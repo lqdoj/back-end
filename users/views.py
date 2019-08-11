@@ -1,29 +1,31 @@
 import json
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import forms
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED)
 from rest_framework.viewsets import ModelViewSet
 
 from lqdoj_backend.json_response import create_message
-from lqdoj_backend.serializers import UserSerializer
 from lqdoj_backend.settings import *
-from .forms import UserRegistrationForm
 
 
-@api_view(["POST"])
-def logout_handle(request):
-    try:
-        token = request.headers.get(HEADER_TOKEN)
-        Token.objects.get(key=token).delete()
-    except Exception as exp:
-        print(exp)
-    else:
-        print(token)
-    finally:
-        return Response(status=200)
+class UserRegistrationForm(UserCreationForm):
+    username = forms.CharField(required=True, min_length=8, max_length=30)
+
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "email", 'password1', 'password2')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "first_name", "last_name", "email")
 
 
 class UserView(ModelViewSet):
