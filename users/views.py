@@ -7,7 +7,8 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED)
+from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED,
+                                   HTTP_404_NOT_FOUND)
 from rest_framework.viewsets import ModelViewSet
 
 from lqdoj_backend.json_response import create_message
@@ -31,6 +32,14 @@ class UserSerializer(serializers.ModelSerializer):
 class UserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            user = self.queryset.get(username=kwargs["pk"])
+            serialized = UserSerializer(user)
+            return Response(data=serialized.data, status=HTTP_200_OK)
+        except:
+            return Response(status=HTTP_404_NOT_FOUND)
 
     @action(detail=False)
     def me(self, request):

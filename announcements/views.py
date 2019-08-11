@@ -1,4 +1,3 @@
-from django.forms import ModelForm
 from rest_framework import permissions, serializers
 from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
@@ -28,7 +27,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 
 
 class AnnouncementsView(viewsets.ModelViewSet):
-    queryset = Announcement.objects.all()
+    queryset = Announcement.objects.all().order_by("-time")
     serializer_class = AnnouncementSerializer
     permission_classes = (IsStaffOrReadOnly,)
     _paginator = CustomPagination(page_size=5, page_query_param="p")
