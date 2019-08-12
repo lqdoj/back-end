@@ -46,8 +46,14 @@ class UserView(ModelViewSet):
 
     @action(detail=False)
     def me(self, request):
+        """
+        Retrieve the current user associated with the token. Returns 200 on
+        success, 401 if the token is missing.
+        """
         try:
             token = request.headers.get(HEADER_TOKEN)
+            if token is None:
+                return Response(status = HTTP_401_UNAUTHORIZED)
             user = Token.objects.get(key=token).user
             serialized = UserSerializer(user)
             return Response(data=serialized.data, status=HTTP_200_OK)
