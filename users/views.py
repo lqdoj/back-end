@@ -77,6 +77,8 @@ class UserView(ModelViewSet):
     """
 
     def update(self, request, *args, **kwargs):
+        if (request.auth is None) or (request.user.username != kwargs[self.lookup_field]):
+            return Response(status=HTTP_401_UNAUTHORIZED)
         form = CustomUserChangeForm(data=json.loads(request.body), instance=request.user)
         if form.is_valid():
             form.save()
