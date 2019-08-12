@@ -1,23 +1,24 @@
 from rest_framework import permissions, serializers
 from rest_framework import viewsets
-from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 
 from lqdoj_backend.paginations import CustomPagination
-from lqdoj_backend.settings import *
 from .models import Announcement
 
 
 class IsStaffOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
-        try:
-            token = request.headers.get(HEADER_TOKEN)
-            user = Token.objects.get(key=token).user
-        except:
-            return request.method in permissions.SAFE_METHODS
-        if user.is_staff:
+        # Allow all readonly request
+        if request.method in permissions.SAFE_METHODS:
             return True
-        else:
-            return request.method in permissions.SAFE_METHODS
+
+        # If it's modification request, check permission
+        if request.auth is None:     # Check token
+            return False
+
+        print("FUCK")
+
+        return request.user.is_staff # Check staff permission
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):
@@ -29,5 +30,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 class AnnouncementsView(viewsets.ModelViewSet):
     queryset = Announcement.objects.all().order_by("-time")
     serializer_class = AnnouncementSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = (IsStaffOrReadOnly,)
     _paginator = CustomPagination(page_size=5, page_query_param="p")

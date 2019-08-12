@@ -66,8 +66,7 @@ CORS_ALLOW_HEADERS = [
     'origin',
     'user-agent',
     'x-csrftoken',
-    'x-requested-with',
-    'LQDOJ-TOKEN'
+    'x-requested-with'
 ]
 
 ROOT_URLCONF = 'lqdoj_backend.urls'
@@ -147,4 +146,3 @@ MSG_USER_CREATED = "User created successfully"
 MSG_INVALID_TOKEN = "Invalid token"
 MSG_WRONG_OLD_PASS = "Old password didn't match"
 MSG_DIFF_NEW_PASS = "The two password fields didn't match"
-HEADER_TOKEN = "LQDOJ-TOKEN"
