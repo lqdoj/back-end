@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'announcements.apps.AnnouncementsConfig',
+    'tokens.apps.TokensConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -138,7 +139,7 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    ),
+    )
 }
 
 # String constants
