@@ -34,6 +34,9 @@ class UserView(ModelViewSet):
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
+        """
+        Custom retrieve function to retrieve user from username instead of id.
+        """
         try:
             user = self.queryset.get(username=kwargs["pk"])
             serialized = UserSerializer(user)
