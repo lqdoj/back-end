@@ -1,31 +1,27 @@
 import json
 
 from django.contrib.auth import authenticate
-from rest_framework import mixins
+from rest_framework import mixins, serializers
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED, HTTP_500_INTERNAL_SERVER_ERROR
 from rest_framework.viewsets import GenericViewSet
 
 
-class IsAuthenticatedOrCreateOnly(BasePermission):
-    def has_permission(self, request, view):
-        if request.method == "POST":
-            return True
-        if request.auth is None:
-            return request.method == "POST"
-        else:
-            return request.user is not None
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = '__all__'
 
 
 class TokenView(mixins.CreateModelMixin,
                 mixins.DestroyModelMixin,
                 GenericViewSet):
-    permission_classes = [IsAuthenticatedOrCreateOnly]
+    serializer_class = TokenSerializer
     queryset = Token.objects.all()
     authentication_classes = [TokenAuthentication]
+    lookup_field = "key"
 
     """
     Login handler: POST request to /tokens/ to create a new token
@@ -52,6 +48,8 @@ class TokenView(mixins.CreateModelMixin,
     def destroy(self, request, *args, **kwargs):
         try:
             token = request.auth
+            if token.key != kwargs['key']:
+                return Response(status=HTTP_401_UNAUTHORIZED)
             self.queryset.get(key=token).delete()
             return Response(status=HTTP_200_OK)
         except:

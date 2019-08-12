@@ -1,25 +1,8 @@
-from rest_framework import routers
-from rest_framework.routers import SimpleRouter, Route
+from rest_framework.routers import DefaultRouter
 
 from tokens.views import TokenView
 
-
-class TokenRouter(SimpleRouter):
-    """
-    A router for read-only APIs, which doesn't use trailing slashes.
-    """
-    routes = [
-        Route(
-            url='',
-            mapping={'post': 'create', 'delete': 'destroy'},
-            detail=False,
-            name='tokens',
-            initkwargs={}
-        ),
-    ]
-
-
-router = TokenRouter()
-router.register('tokens', TokenView)
+router = DefaultRouter()
+router.register(prefix='', basename='tokens', viewset=TokenView)
 
 urlpatterns = router.urls
