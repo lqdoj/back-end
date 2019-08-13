@@ -16,8 +16,6 @@ class IsStaffOrReadOnly(permissions.BasePermission):
         if request.auth is None:     # Check token
             return False
 
-        print("FUCK")
-
         return request.user.is_staff # Check staff permission
 
 

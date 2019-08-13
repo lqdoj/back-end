@@ -1,33 +1,14 @@
 import json
 
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, UserChangeForm
-from django.contrib.auth.forms import forms
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from rest_framework import serializers
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED)
 from rest_framework.viewsets import ModelViewSet
 
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("id", "username", "first_name", "last_name", "email", "date_joined")
-
-
-class UserRegistrationForm(UserCreationForm):
-    username = forms.CharField(required=True, min_length=8, max_length=30)
-
-    class Meta:
-        model = User
-        fields = ("username", "first_name", "last_name", "email", 'password1', 'password2')
-
-
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = User
-        fields = ('first_name', 'last_name', 'email')
+from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
+from users.serializers import UserSerializer
 
 
 class UserView(ModelViewSet):
@@ -65,6 +46,14 @@ class UserView(ModelViewSet):
     """
 
     def partial_update(self, request, *args, **kwargs):
+        # Return 401 if no token found
+        if request.auth is None:
+            return Response(status=HTTP_401_UNAUTHORIZED)
+
+        # Return 401 if token doesn't match with the lookup value
+        if request.user.username != kwargs[self.lookup_field]:
+            return Response(status=HTTP_401_UNAUTHORIZED)
+
         form = PasswordChangeForm(data=json.loads(request.body), user=request.user)
         if form.is_valid():
             form.save()
@@ -77,11 +66,23 @@ class UserView(ModelViewSet):
     """
 
     def update(self, request, *args, **kwargs):
-        if (request.auth is None) or (request.user.username != kwargs[self.lookup_field]):
+        # Return 401 if no token found
+        if request.auth is None:
             return Response(status=HTTP_401_UNAUTHORIZED)
-        form = CustomUserChangeForm(data=json.loads(request.body), instance=request.user)
-        if form.is_valid():
-            form.save()
+
+        # Return 401 if token doesn't match with the lookup value
+        if request.user.username != kwargs[self.lookup_field]:
+            return Response(status=HTTP_401_UNAUTHORIZED)
+
+        u_form = UserUpdateForm(data=request.data.dict(), instance=request.user)
+        p_form = ProfileUpdateForm(data=request.data.dict(), files=request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
             return Response(status=HTTP_200_OK)
         else:
-            return Response(data=form.errors, status=HTTP_400_BAD_REQUEST)
+            return_data = u_form.errors
+            if u_form.is_valid():
+                return_data = p_form.errors
+            return Response(data=return_data, status=HTTP_400_BAD_REQUEST)
