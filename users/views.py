@@ -4,7 +4,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED)
+from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED,
+                                   HTTP_403_FORBIDDEN)
 from rest_framework.viewsets import ModelViewSet
 
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
@@ -52,7 +53,7 @@ class UserView(ModelViewSet):
 
         # Return 401 if token doesn't match with the lookup value
         if request.user.username != kwargs[self.lookup_field]:
-            return Response(status=HTTP_401_UNAUTHORIZED)
+            return Response(status=HTTP_403_FORBIDDEN)
 
         form = PasswordChangeForm(data=json.loads(request.body), user=request.user)
         if form.is_valid():
@@ -72,7 +73,7 @@ class UserView(ModelViewSet):
 
         # Return 401 if token doesn't match with the lookup value
         if request.user.username != kwargs[self.lookup_field]:
-            return Response(status=HTTP_401_UNAUTHORIZED)
+            return Response(status=HTTP_403_FORBIDDEN)
 
         u_form = UserUpdateForm(data=request.data.dict(), instance=request.user)
         p_form = ProfileUpdateForm(data=request.data.dict(), files=request.FILES, instance=request.user.profile)
