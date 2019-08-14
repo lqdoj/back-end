@@ -15,9 +15,9 @@ def get_time_stamp():
 
 def get_file_path(instance, filename):
     upload_to = os.path.join(AVATAR_FOLDER)
-    extension = filename.split('.')[-1]
+    extension = os.path.splitext(filename)[1]
     filename = get_time_stamp() + "_" + instance.user.username
-    final_filename = '{}.{}'.format(filename, extension)
+    final_filename = '{}{}'.format(filename, extension)
 
     return os.path.join(upload_to, final_filename)
 
@@ -30,9 +30,9 @@ class Profile(models.Model):
         return "User profile: " + self.user.username
 
     def save(self, *args, **kwargs):
-        super().save()
+        super().save(args, kwargs)
         img = Image.open(self.avatar.path)
-        if (img.height > 150) or (img.width > 150):
-            output_size = (150, 150)
+        if (img.height > 500) or (img.width > 500):
+            output_size = (500, 500)
             img.thumbnail(output_size)
             img.save(self.avatar.path)

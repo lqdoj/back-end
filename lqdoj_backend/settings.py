@@ -63,7 +63,6 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = False
 
 ROOT_URLCONF = 'lqdoj_backend.urls'
 
@@ -133,8 +132,6 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 AVATAR_FOLDER = 'avatars'
-
-
 
 # String constants
 MSG_USER_CREATED = "User created successfully"

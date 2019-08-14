@@ -13,10 +13,10 @@ class IsStaffOrReadOnly(permissions.BasePermission):
             return True
 
         # If it's modification request, check permission
-        if request.auth is None:     # Check token
+        if request.auth is None:  # Check token
             return False
 
-        return request.user.is_staff # Check staff permission
+        return request.user.is_staff  # Check staff permission
 
 
 class AnnouncementSerializer(serializers.ModelSerializer):

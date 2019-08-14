@@ -51,7 +51,7 @@ class UserView(ModelViewSet):
         if request.auth is None:
             return Response(status=HTTP_401_UNAUTHORIZED)
 
-        # Return 401 if token doesn't match with the lookup value
+        # Return 403 if token doesn't match with the lookup value
         if request.user.username != kwargs[self.lookup_field]:
             return Response(status=HTTP_403_FORBIDDEN)
 
@@ -71,7 +71,7 @@ class UserView(ModelViewSet):
         if request.auth is None:
             return Response(status=HTTP_401_UNAUTHORIZED)
 
-        # Return 401 if token doesn't match with the lookup value
+        # Return 403 if token doesn't match with the lookup value
         if request.user.username != kwargs[self.lookup_field]:
             return Response(status=HTTP_403_FORBIDDEN)
 

@@ -63,7 +63,6 @@ instance/
 .scrapy
 
 # Media stuff:
-# Media stuff:
 media/*
 !media/avatars/
 media/avatars/*
