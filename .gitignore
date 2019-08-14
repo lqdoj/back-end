@@ -63,7 +63,11 @@ instance/
 .scrapy
 
 # Media stuff:
-media/avatars
+# Media stuff:
+media/*
+!media/avatars/
+media/avatars/*
+!media/avatars/default.jpg
 
 # Sphinx documentation
 docs/_build/
@@ -104,3 +108,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# IDE stuff:
+.idea/
