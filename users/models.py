@@ -24,13 +24,12 @@ def get_file_path(instance, filename):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, to_field="username")
-    avatar = models.ImageField(default='default.jpg', upload_to=get_file_path)
+    avatar = models.ImageField(default='avatars/default.jpg', upload_to=get_file_path)
 
     def __str__(self):
         return "User profile: " + self.user.username
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    def save(self, *args, **kwargs):
         super().save()
         img = Image.open(self.avatar.path)
         if (img.height > 150) or (img.width > 150):
