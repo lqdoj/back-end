@@ -1,5 +1,5 @@
 import os
-import time
+from datetime import datetime
 
 from PIL import Image
 from django.contrib.auth.models import User
@@ -9,12 +9,8 @@ from lqdoj_backend.settings import AVATAR_FOLDER
 
 
 def get_time_stamp():
-    # Get the seconds since epoch
-    seconds_since_epoch = time.time()
-    # Convert seconds since epoch to struct_time
-    time_obj = time.localtime(seconds_since_epoch)
-    return '%d-%d-%d_%d-%d-%d' % (
-        time_obj.tm_mday, time_obj.tm_mon, time_obj.tm_year, time_obj.tm_hour, time_obj.tm_min, time_obj.tm_sec)
+    time_obj = datetime.now()
+    return time_obj.strftime("%Y-%m-%d_%H-%M-%S")
 
 
 def get_file_path(instance, filename):
