@@ -31,7 +31,6 @@ MANIFEST
 *.manifest
 *.spec
 
-# Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
 
@@ -62,6 +61,12 @@ instance/
 
 # Scrapy stuff:
 .scrapy
+
+# Media stuff:
+media/*
+!media/avatars/
+media/avatars/*
+!media/avatars/default.jpg
 
 # Sphinx documentation
 docs/_build/
@@ -102,3 +107,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# IDE stuff:
+.idea/
