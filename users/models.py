@@ -30,7 +30,7 @@ class Profile(models.Model):
         return "User profile: " + self.user.username
 
     def save(self, *args, **kwargs):
-        super().save(args, kwargs)
+        super().save(*args, **kwargs)
         img = Image.open(self.avatar.path)
         if (img.height > 500) or (img.width > 500):
             output_size = (500, 500)
