@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'announcements.apps.AnnouncementsConfig',
     'tokens.apps.TokensConfig',
+    'tasks.apps.TasksConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
