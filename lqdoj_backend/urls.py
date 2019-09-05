@@ -27,4 +27,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# TODO: Implement another storage system suitable for production use
+else:
+    # TODO: Implement another storage system suitable for production use
+    pass
