@@ -23,6 +23,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('announcements/', include('announcements.urls')),
     path('tokens/', include('tokens.urls')),
+    path('tasks/', include('tasks.urls')),
 ]
 
 if settings.DEBUG:

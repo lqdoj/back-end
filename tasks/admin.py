@@ -5,7 +5,8 @@ from tasks.models import Task, Tag, Test
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('task_code', 'title', 'author')
+    list_display = ('task_code', 'title', 'problem_tags', 'author',)
+    filter_horizontal = ('tags',)
 
 
 class TestAdmin(admin.ModelAdmin):

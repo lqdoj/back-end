@@ -23,6 +23,9 @@ class Task(models.Model):
     custom_grader = models.CharField(default=None, max_length=100)
     last_modified = models.DateTimeField(auto_now=True)
 
+    def problem_tags(self):
+        return "; ".join([p.tag_name for p in self.tags.all()])
+
     def __str__(self):
         return self.task_code + " by " + self.author.__str__()
 
