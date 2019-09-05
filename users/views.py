@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.http.multipartparser import MultiPartParser
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED,
@@ -75,10 +76,10 @@ class UserView(ModelViewSet):
         if request.user.username != kwargs[self.lookup_field]:
             return Response(status=HTTP_403_FORBIDDEN)
 
-        u_form = UserUpdateForm(data=request.data.dict(), instance=request.user)
+        u_form = UserUpdateForm(data=request.data, instance=request.user)
         p_form = ProfileUpdateForm(data=request.data.dict(), files=request.FILES, instance=request.user.profile)
 
-        if u_form.is_valid() and p_form.is_valid():
+        if u_form.is_valid():
             u_form.save()
             p_form.save()
             return Response(status=HTTP_200_OK)
