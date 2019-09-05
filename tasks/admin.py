@@ -15,3 +15,4 @@ class TestAdmin(admin.ModelAdmin):
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Tag)
 admin.site.register(Test)
+
