@@ -25,11 +25,11 @@ class Task(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, to_field="username", null=True)
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
-    score_mode = models.CharField(max_length=20, choices=[(mode, mode.value) for mode in ScoreModeEnum])
+    score_mode = models.CharField(max_length=20, choices=[(mode.name, mode.value) for mode in ScoreModeEnum])
     score_parameter = models.TextField()
     time_limit = models.FloatField(default=1)
     memory_limit = models.IntegerField(default=256)
-    diff_mode = models.CharField(max_length=20, choices=[(mode, mode.value) for mode in DiffModeEnum])
+    diff_mode = models.CharField(max_length=20, choices=[(mode.name, mode.value) for mode in DiffModeEnum])
     custom_grader = models.FileField(default=None)
     last_modified = models.DateTimeField(auto_now=True)
 

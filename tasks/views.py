@@ -24,6 +24,7 @@ class IsStaffOrReadOnly(permissions.BasePermission):
 class TaskView(ModelViewSet):
     queryset = Task.objects.all()
     permission_classes = (IsStaffOrReadOnly,)
+    lookup_field = "task_code"
 
     """
     Override get_serializer_class(self) function to specify what serializer will be used
@@ -33,3 +34,4 @@ class TaskView(ModelViewSet):
         if self.action == 'retrieve':
             return TaskSerializer
         return TaskListSerializer
+
