@@ -1,3 +1,49 @@
+from django.contrib.auth.models import User
 from django.db import models
+from enum import Enum
 
-# Create your models here.
+
+class ScoreModeEnum(Enum):
+    SUM = "SUM"
+    GROUP_MIN = "GROUP_MIN"
+
+
+class DiffModeEnum(Enum):
+	C1 = "C1"
+
+
+class Tag(models.Model):
+    tag_name = models.CharField(max_length=50, unique=True, primary_key=True)
+
+    def __str__(self):
+        return self.tag_name
+
+
+class Task(models.Model):
+    task_code = models.CharField(max_length=16, unique=True)
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, to_field="username", null=True)
+    description = models.TextField()
+    tags = models.ManyToManyField(Tag)
+    score_mode = models.CharField(max_length=20, choices=[(mode.name, mode.value) for mode in ScoreModeEnum])
+    score_parameter = models.TextField()
+    time_limit = models.FloatField(default=1)
+    memory_limit = models.IntegerField(default=256)
+    diff_mode = models.CharField(max_length=20, choices=[(mode.name, mode.value) for mode in DiffModeEnum])
+    custom_grader = models.FileField(default=None)
+    last_modified = models.DateTimeField(auto_now=True)
+
+    def problem_tags(self):
+        return "; ".join([p.tag_name for p in self.tags.all()])
+
+    def __str__(self):
+        return self.task_code + " by " + self.author.__str__()
+
+
+class Test(models.Model):
+    id = models.IntegerField(primary_key=True)
+    task = models.ForeignKey(Task, to_field="task_code", on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    position = models.IntegerField()
+    input = models.FileField()
+    output = models.FileField()
