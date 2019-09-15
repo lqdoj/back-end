@@ -1,5 +1,15 @@
 from django.contrib.auth.models import User
 from django.db import models
+from enum import Enum
+
+
+class ScoreModeEnum(Enum):
+    SUM = "SUM"
+    GROUP_MIN = "GROUP_MIN"
+
+
+class DiffModeEnum(Enum):
+	C1 = "C1"
 
 
 class Tag(models.Model):
@@ -10,17 +20,17 @@ class Tag(models.Model):
 
 
 class Task(models.Model):
-    task_code = models.CharField(max_length=8, unique=True, primary_key=True)
+    task_code = models.CharField(max_length=16, unique=True)
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, to_field="username")
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, to_field="username", null=True)
     description = models.TextField()
     tags = models.ManyToManyField(Tag)
-    score_mode = models.CharField(max_length=10)
-    score_parameter = models.IntegerField(default=None)
+    score_mode = models.CharField(max_length=20, choices=[(mode, mode.value) for mode in ScoreModeEnum])
+    score_parameter = models.TextField()
     time_limit = models.FloatField(default=1)
     memory_limit = models.IntegerField(default=256)
-    diff_mode = models.CharField(max_length=10)
-    custom_grader = models.CharField(default=None, max_length=100)
+    diff_mode = models.CharField(max_length=20, choices=[(mode, mode.value) for mode in DiffModeEnum])
+    custom_grader = models.FileField(default=None)
     last_modified = models.DateTimeField(auto_now=True)
 
     def problem_tags(self):
