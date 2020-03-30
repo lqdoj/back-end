@@ -1,8 +1,9 @@
 from rest_framework.routers import DefaultRouter
 
-from tasks.views import TaskView
+from submissions.views import SubmissionView
+
 
 router = DefaultRouter()
-router.register(prefix='', basename='tasks', viewset=TaskView)
+router.register(prefix='', basename='submissions', viewset=SubmissionView)
 
 urlpatterns = router.urls

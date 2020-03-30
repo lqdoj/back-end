@@ -1,15 +1,15 @@
 from rest_framework import serializers
-
+from submissions.models import Submission
 from tasks.models import Task
 
 
-class TaskListSerializer(serializers.ModelSerializer):
+class SubmissionListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
-        fields = ('id', 'task_code', 'title', 'author', 'tags', 'score_mode', 'last_modified')
+        model = Submission
+        fields = ('id', 'task', 'language', 'result', 'submit_time')
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('id', 'task_code', 'title', 'author', 'tags', 'description', 'score_mode', 'last_modified')
+        fields = '__all__'

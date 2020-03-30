@@ -16,3 +16,4 @@ class Submission(models.Model):
     source_code = models.TextField()
     submit_time = models.DateTimeField(auto_now=True)
     language = models.CharField(max_length=20, choices=[(language.name, language.value) for language in Language])
+    result = models.CharField(max_length=100, default="", blank=True)
