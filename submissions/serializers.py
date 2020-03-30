@@ -11,5 +11,5 @@ class SubmissionListSerializer(serializers.ModelSerializer):
 
 class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model = Submission
         fields = '__all__'

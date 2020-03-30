@@ -9,7 +9,7 @@ class ScoreModeEnum(Enum):
 
 
 class DiffModeEnum(Enum):
-	C1 = "C1"
+    C1 = "C1"
 
 
 class Tag(models.Model):
@@ -37,7 +37,7 @@ class Task(models.Model):
         return "; ".join([p.tag_name for p in self.tags.all()])
 
     def __str__(self):
-        return self.task_code + " by " + self.author.__str__()
+        return self.task_code
 
 
 class Test(models.Model):
