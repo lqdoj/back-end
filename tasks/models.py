@@ -41,7 +41,6 @@ class Task(models.Model):
 
 
 class Test(models.Model):
-    id = models.IntegerField(primary_key=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     position = models.IntegerField()

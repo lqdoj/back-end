@@ -25,8 +25,8 @@ class IsStaffOrReadOnly(permissions.BasePermission):
 
 class TasksView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Task.objects.all()
-    permission_classes = (IsStaffOrReadOnly,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (IsStaffOrReadOnly,)
+    # authentication_classes = [TokenAuthentication]
     _paginator = CustomPagination(page_size=5, page_query_param="p")
 
     """

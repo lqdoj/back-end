@@ -24,7 +24,6 @@ urlpatterns = [
     path('announcements/', include('announcements.urls')),
     path('tokens/', include('tokens.urls')),
     path('tasks/', include('tasks.urls')),
-    path('submissions/', include('submissions.urls')),
 ]
 
 if settings.DEBUG:
