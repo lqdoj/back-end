@@ -27,6 +27,7 @@ class TokenView(mixins.CreateModelMixin,
     Login handler: POST request to /tokens/ to create a new token
     Return 200 if success, 401 if the credentials aren't good, 500 if server error
     """
+
     def create(self, request, *args, **kwargs):
         try:
             data = json.loads(request.body)
@@ -45,6 +46,7 @@ class TokenView(mixins.CreateModelMixin,
     Logout handler: DELETE request to /tokens/ to delete token
     Return 200 if success, or 401 if token was not supplied
     """
+
     def destroy(self, request, *args, **kwargs):
         try:
             token = request.auth

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import permissions
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions, mixins
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
+from lqdoj_backend.paginations import CustomPagination
 from tasks.models import Task
 from tasks.serializers import TaskListSerializer, TaskSerializer
 
@@ -21,10 +23,11 @@ class IsStaffOrReadOnly(permissions.BasePermission):
         return request.user.is_staff  # Check staff permission
 
 
-class TaskView(ModelViewSet):
+class TasksView(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     queryset = Task.objects.all()
     permission_classes = (IsStaffOrReadOnly,)
-    lookup_field = "task_code"
+    authentication_classes = [TokenAuthentication]
+    _paginator = CustomPagination(page_size=5, page_query_param="p")
 
     """
     Override get_serializer_class(self) function to specify what serializer will be used

@@ -139,3 +139,4 @@ MSG_USER_CREATED = "User created successfully"
 MSG_INVALID_TOKEN = "Invalid token"
 MSG_WRONG_OLD_PASS = "Old password didn't match"
 MSG_DIFF_NEW_PASS = "The two password fields didn't match"
+
